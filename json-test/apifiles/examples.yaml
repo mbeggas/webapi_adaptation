@@ -1,0 +1,35 @@
+requestBody:
+  content:
+    application/octet-stream:
+      # any media type is accepted, functionally equivalent to `*/*`
+      schema:
+        # a binary file of any type
+        type: string
+        format: binary
+        .
+# multiple, specific media types may be specified:
+requestBody:
+  content:
+      # a binary file of type png or jpeg
+    'image/jpeg':
+      schema:
+        type: string
+        format: binary
+    'image/png':
+      schema:
+        type: string
+        format: binary
+
+
+#To upload multiple apifiles, a multipart media type MUST be used:
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        properties:
+          # The property name 'file' will be used for all apifiles.
+          file:
+            type: array
+            items:
+              type: string
+              format: binary

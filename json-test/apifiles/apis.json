@@ -1,0 +1,50 @@
+{
+  "openapi",: "3.0.0"
+  "info": {
+    "version" : "1.0.0",
+    "title" : "image manipulation"
+  },
+  "@context": {
+    "class": "http://example.org/class/",
+    "prop": "http://example.org/property/",
+    "res": "http://example.org/resource/"
+  },
+  "paths": {
+    "/images": {
+      "get": {
+        "parameters": [
+          {
+            "name": "image_id",
+            "type": "string",
+            "@type": "class:imageID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "title": "result",
+              "type": "object",
+              "properties": {
+                "imageurl": {
+                  "type": "string",
+                  "@type": "class:url"
+                },
+                "imageformat": {
+                  "type": "string",
+                  "@type": "class:imageFormat"
+                },
+                "imagesize": {
+                  "type": "integer",
+                  "format": "int32",
+                  "@type": "class:imageSize"
+                }
+              }
+            }
+          }
+        },
+        "precondition": "",
+        "postcondition": "ASK{?x prop:hasImageFormat ?y . ?x prop:minImageSize ?mins . ?x prop:maxImageSize ?maxs . FILTER (?mins=??s1 and maxs=??s2 ?y in ??list ).}"
+      }
+    }
+  }
+}

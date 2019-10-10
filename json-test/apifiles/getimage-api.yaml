@@ -1,0 +1,38 @@
+openapi: "3.0.0"
+info:
+  version : 1.0.0
+  title : image manipulation
+"@context":
+  class: http://example.org/class/
+  prop: http://example.org/property/
+  res: http://example.org/resource/
+servers:
+  - url: http://apis.example.org/
+paths:
+  /images:
+    get:
+      parameters:
+        - name: imageID
+          in: path
+          required: true
+          schema:
+            type: string
+            "@type": class:imageID
+      responses:
+        200:
+          description: returns binary image
+          content:
+            application/octet-stream:
+              schema:
+                "@type": class:image
+                type: string
+                format: binary
+      precondition:
+      postcondition: ASK{
+        ?x prop:hasImageFormat ?y .
+        ?x prop:minImageSize ?mins .
+        ?x prop:maxImageSize ?maxs .
+          FILTER (
+            ?mins=??s1 && maxs=??s2 ?y in ??list
+          ).
+        }
